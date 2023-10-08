@@ -62,38 +62,35 @@ export const experiencesData = [
 
 export const projectsData = [
   {
-    title: "資料庫讀寫",
+    title: "Excel-MongoDB導入",
     description:
-      "我接觸過一點點的python腳本，像是一些資料轉移的功能，這個專案就是一個腳本，負責定時從GCS上取的連結，並讀取連結內EXCEL檔的內容，然後搬移至MongoDB。",
+      "開發了一個Python腳本，用於自動從GCS讀取Excel文件並將其內容導入MongoDB。",
     tags: ["Python", "MongoDB", "linux" , "GCP"],
     imageUrl: syncImg,
   },
   {
-    title: "資料庫搜尋",
+    title: "MongoDB搜尋器",
     description:
-      "親戚的公司需要一個優秀的Excel查詢工具，於是寫了一個網站用於搜尋MongoDB的資料庫，並且可以透過登入後的管理頁面實時設定搜尋結果要顯示哪個資料表以及ROW。",
+      "為一家公司設計了一個網站工具，用於實時搜尋和管理MongoDB資料庫中的資料。",
     tags: ["JAVA", "Spring Boot", "NGINX", "Mongo DB", "linux" , "GCP" , "cloudflare"],
     imageUrl: excelhuntImg,
+    ctalink:"https://github.com/Alien7666/excelhunt"
   },
   {
     title: "個人網站",
     description:
-      "這個網站就是您現在看到的網站，純粹是我在學習我不會的Recat和Next.js時拿來練手的項目，對於這個網站所用到的技術我也都還在學習中。",
+      "開發了我的個人網站，使用React和Next.js，作為學習這些技術的一部分。",
     tags: ["React", "Next.js", "type script", "Tailwind"],
     imageUrl: siteImg,
+    ctalink:"https://github.com/Alien7666/alien-website"
   },
 ] as const;
 
-export const skillsData = [
-  "HTML",
-  "CSS",
-  "JavaScript",
-  "Node.js",
-  "Git",
-  "MongoDB",
-  "Python",
-  "Java",
-  "Spring Boot",
-  "Linux",
-  "NGINX",
-] as const;
+export const skillsData = {
+  前端: ["HTML5", "CSS", "JavaScript", "SASS/SCSS"],
+  後端: ["Node.js", "Java", "Spring Boot"],
+  資料庫: ["MongoDB", "MySQL"],
+  伺服器:["NGINX","Apache"],
+  雲服務:["AWS","Google Cloud Platform"],
+  其他:["Git","Docker","Linux","Python"],
+} as const;

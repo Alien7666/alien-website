@@ -4,6 +4,7 @@ import { useRef } from "react";
 import { projectsData } from "@/lib/data";
 import Image from "next/image";
 import { motion, useScroll, useTransform } from "framer-motion";
+import { useTheme } from "@/context/theme-context";
 
 type ProjectProps = (typeof projectsData)[number];
 
@@ -12,7 +13,10 @@ export default function Project({
   description,
   tags,
   imageUrl,
+  //@ts-ignore
+  ctalink,
 }: ProjectProps) {
+  const { theme } = useTheme();
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -20,6 +24,9 @@ export default function Project({
   });
   const scaleProgess = useTransform(scrollYProgress, [0, 1], [0.8, 1]);
   const opacityProgess = useTransform(scrollYProgress, [0, 1], [0.6, 1]);
+  const buttonClasses = theme === 'dark' 
+  ? 'bg-dark-blue text-white' 
+  : 'bg-light-blue text-black';
 
   return (
     <motion.div
@@ -46,6 +53,14 @@ export default function Project({
               </li>
             ))}
           </ul>
+          {ctalink && (
+          <a 
+            href={ctalink} 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            className={`mt-4 inline-block px-4 py-2 rounded ${buttonClasses}`}>
+            查看項目</a>
+          )}
         </div>
 
         <Image

@@ -54,6 +54,7 @@ export default function Intro() {
           >
             👋
           </motion.span>
+
         </div>
       </div>
 
@@ -62,11 +63,18 @@ export default function Intro() {
         initial={{ opacity: 0, y: 100 }}
         animate={{ opacity: 1, y: 0 }}
       >
-        <span className="font-bold">你好，我是鍾天祐</span> 我是{" "}
-        <span className="font-bold">全端的開發人員</span> ，雖然{" "}
-        <span className="font-bold">還沒有</span>任何的工作經驗，但是我熱衷於{" "}
-        <span className="italic">開發網站和應用程式</span>。我主要專注於編寫{" "}
-        <span className="underline">JAVA (Spring boot)</span>程式
+        <div className="font-bold , text-4xl">
+            鍾天祐
+        </div>
+        <div className="text-xl md:text-3xl">
+          你好，我是<span className="font-bold"></span>一個
+          <span className="font-bold">全端的開發人員</span>
+          {/* ，雖然 */}
+          {/* <span className="font-bold">還沒有</span>任何的工作經驗，但是 */}
+          ，熱衷於
+          <span className="">開發網站和應用程式</span>，主要專注於編寫{" "}
+          <span className="font-bold">JAVA (Spring boot)</span>。
+        </div>
       </motion.h1>
 
       <motion.div

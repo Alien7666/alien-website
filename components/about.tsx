@@ -17,29 +17,22 @@ export default function About() {
       transition={{ delay: 0.175 }}
       id="about"
     >
-      <SectionHeading>關於我</SectionHeading>
+      <SectionHeading>
+        <div className="font-blod">
+          關於我
+        </div>
+        </SectionHeading>
       <p className="mb-3">
-        在高職取得
-        <span className="font-medium">會計</span>證照以後, 我對未來感到很迷茫，於是在大學報名了運動相關的學系，
-        但是在我大三時，我突然意識到自己真正有興趣的是對寫程式這件事，
-        所以我在讀書的同時也去報了外面的培訓班，學習相關的網頁開發知識，
-        也如願學習到了基礎的資料庫以及網頁開發知識，但是這些知識對我來說要進入這行是不夠的，於是我自學了更多之前上課沒教過的JAVA以及Spring Boot和其他相關的知識，並希望將來能成為一個{" "}
-        <span className="font-medium">全端的開發人員</span>。{" "}
-        <span className="italic">程式設計中我最喜歡的部分</span>是解決問題的部分。 我 
-        <span className="underline">喜歡</span> 
-        最後找出問題的感覺，同時也喜歡想出更好的解決方案，我擅長的程式有{" "}
-        <span className="font-medium">
-          JAVA , Spring Boot , HTML , CSS , Linux , Servlet , MongoDB , MySQL , JavaScript 
-        </span>
-        。我也熟悉 NGINX 和 網站架設。我一直在尋求學習新技術。我目前正在找{" "}
-        <span className="font-medium">全職的</span> 網頁開發人員的工作。
+        從高職取得會計證照之後，我的人生方向一度迷茫。大學選擇了運動相關學系，大三時發現自己對程式設計有著不可或缺的熱情。於是，在學期間參加了外部的培訓班，學習網頁開發，習得了基礎的資料庫和網頁開發知識，但我明白要真正踏入此行，這點基礎是遠遠不夠的。因此，我自學了更多的JAVA、以及Spring Boot等技術，並熱切地期望能成為一名全端開發人員。
       </p>
-
+      <p className="mb-3 text-lg">
+        <span className="font-bold">"程式設計中，我最享受的是解決問題的過程"</span>
+      </p>
+      <p>  
+        從確定問題到思索最佳解決方案，每一步都讓我充滿成就感，除了在培訓班學到的技能，還精通JAVA、Spring Boot、HTML、CSS、Linux、Servlet、MongoDB、MySQL和JavaScript，且熟知NGINX和網站架設。我對於新技術，總是保持學習的態度，目前正尋找網頁開發的全職職位。
+      </p>
       <p>
-        <span className="italic">當我沒有在寫程式時</span>, 我喜歡玩各種線上遊戲, 看電影, 和去流浪動物之家當志工。我也很享受{" "}
-        <span className="font-medium">學習新事物</span>。我最近正在學習關於
-        {" "}
-        <span className="font-medium">電腦組裝</span> 的知識。
+        生活中，我熱愛線上遊戲、電影，且常在流浪動物之家作為志工貢獻自己的力量，最近也開始深入學習電腦組裝的相關知識。
       </p>
     </motion.section>
   );
