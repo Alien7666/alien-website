@@ -67,12 +67,10 @@ export default function Intro() {
             鍾天祐
         </div>
         <div className="text-xl md:text-3xl">
-          你好，我是<span className="font-bold"></span>一個
+          你好，我是<span className="font-bold"></span>一個自學中的
           <span className="font-bold">全端的開發人員</span>
-          {/* ，雖然 */}
-          {/* <span className="font-bold">還沒有</span>任何的工作經驗，但是 */}
-          ，熱衷於
-          <span className="">開發網站和應用程式</span>，主要專注於編寫{" "}
+          ，喜歡
+          <span className="">開發網站和應用程式</span>，主要寫{" "}
           <span className="font-bold">JAVA (Spring boot)</span>。
         </div>
       </motion.h1>
@@ -93,7 +91,7 @@ export default function Intro() {
             setTimeOfLastClick(Date.now());
           }}
         >
-          從這裡聯絡我{" "}
+          聯絡我{" "}
           <BsArrowRight className="opacity-70 group-hover:translate-x-1 transition" />
         </Link>
 

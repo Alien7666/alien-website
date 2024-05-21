@@ -1,0 +1,11 @@
+docker build -t site-app .
+
+docker login
+
+docker tag site-app:latest alien7666/site-app:latest
+
+docker push alien7666/site-app:latest
+
+docker pull alien7666/site-app:latest
+
+docker run -d -p 3000:3000 --restart=unless-stopped --name site alien7666/site-app
