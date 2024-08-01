@@ -33,8 +33,8 @@ export default function Contact() {
 
       <p className="text-gray-700 -mt-6 dark:text-white/80">
         請透過這個E-mail聯絡我{" "}
-        <a className="underline" href="mailto:alien@excelhunt.dev">
-          alien@excelhunt.dev
+        <a className="underline" href="mailto:alien@azndev.com">
+        alien@azndev.com
         </a>{" "}
         ，或是透過下面的表單
       </p>

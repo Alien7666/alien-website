@@ -66,12 +66,16 @@ export default function Intro() {
         <div className="font-bold , text-4xl">
             鍾天祐
         </div>
-        <div className="text-xl md:text-3xl">
-          你好，我是<span className="font-bold"></span>一個自學中的
+        <div className="text-xl md:text-3xl mt-1">
+          你好👋
+          {/* &nbsp; */}
+          我是<span className="font-bold"></span>
+          一個有一年多獨立開發經驗的
           <span className="font-bold">全端的開發人員</span>
-          ，喜歡
-          <span className="">開發網站和應用程式</span>，主要寫{" "}
-          <span className="font-bold">JAVA (Spring boot)</span>。
+          {/* ，喜歡 */}
+          {/* <span className="">開發網站和應用程式</span> */}
+          主要寫{"  "}
+          <span className="font-bold">JAVA (Spring boot)</span>
         </div>
       </motion.h1>
 

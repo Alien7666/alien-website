@@ -63,7 +63,7 @@ export function useTheme() {
   const context = useContext(ThemeContext);
 
   if (context === null) {
-    throw new Error("useTheme 必须在 ThemeContextProvider 中使用");
+    throw new Error("useTheme 必需在 ThemeContextProvider 中使用");
   }
 
   return context;
