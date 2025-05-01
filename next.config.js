@@ -11,6 +11,8 @@ const nextConfig = {
   experimental: {
     serverActions: true,
   },
+  // 解決 hydration 警告問題
+  reactStrictMode: true,
 };
 
 module.exports = nextConfig;

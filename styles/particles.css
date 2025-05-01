@@ -1,0 +1,12 @@
+@keyframes particles {
+  0% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  100% {
+    transform: translate(100px, 100px) rotate(360deg);
+  }
+}
+
+.animate-particles {
+  animation: particles 20s linear infinite;
+}
