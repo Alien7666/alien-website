@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { useTheme } from '@/context/theme-context';
 
 interface Particle {
@@ -14,11 +14,28 @@ interface Particle {
   shape?: string; // 形狀屬性
   rotation?: number; // 旋轉角度（僅用於非圓形粒子）
   rotationSpeed?: number; // 旋轉速度
+  originX?: number; // 原始 X 座標，用於滑鼠互動後回到原位置
+  originY?: number; // 原始 Y 座標
+}
+
+interface Line {
+  x1: number;
+  y1: number;
+  x2: number;
+  y2: number;
+  width: number;
+  color: string;
+  opacity: number;
+  speed: number;
+  length: number;
+  angle: number;
 }
 
 export default function ParticleBackground() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [particles, setParticles] = useState<Particle[]>([]);
+  const [lines, setLines] = useState<Line[]>([]);
+  const [mousePosition, setMousePosition] = useState<{x: number, y: number} | null>(null);
   const { theme = 'light' } = useTheme() || {};
   
   // 當主題改變時重新創建粒子
@@ -33,7 +50,9 @@ export default function ParticleBackground() {
     canvas.height = window.innerHeight;
     
     const newParticles: Particle[] = [];
-    const particleCount = theme === 'dark' ? 100 : 50; // 減少粒子數量
+    const newLines: Line[] = [];
+    const particleCount = theme === 'dark' ? 80 : 60; // 調整粒子數量
+    const lineCount = theme === 'dark' ? 30 : 20; // 線條數量
     
     if (theme === 'dark') {
       // 深色主題：白色發光粒子與連線
@@ -46,9 +65,11 @@ export default function ParticleBackground() {
         newParticles.push({
           x: x,
           y: y,
+          originX: x,
+          originY: y,
           size: Math.random() * 3 + 1, // 減小粒子尺寸
-          speedX: Math.random() * 0.5 - 0.25, // 減慢速度
-          speedY: Math.random() * 0.5 - 0.25, // 減慢速度
+          speedX: (Math.random() * 0.3 - 0.15), // 進一步減慢速度
+          speedY: (Math.random() * 0.3 - 0.15), // 進一步減慢速度
           color: `rgba(255, 255, 255, ${Math.random() * 0.5 + 0.3})`,
           opacity: Math.random() * 0.5 + 0.3,
           shape: 'circle'
@@ -84,9 +105,11 @@ export default function ParticleBackground() {
         newParticles.push({
           x: x,
           y: y,
+          originX: x,
+          originY: y,
           size: Math.random() * 4 + 2, // 調整粒子尺寸
-          speedX: (Math.random() * 0.4 - 0.2) * 0.7, // 降低速度
-          speedY: (Math.random() * 0.4 - 0.2) * 0.7, // 降低速度
+          speedX: (Math.random() * 0.3 - 0.15) * 0.7, // 進一步降低速度
+          speedY: (Math.random() * 0.3 - 0.15) * 0.7, // 進一步降低速度
           color: colors[colorIdx] + (Math.random() * 0.3 + 0.3) + ')', // 調整透明度
           opacity: Math.random() * 0.3 + 0.5,
           shape: shapes[shapeIdx],
@@ -96,12 +119,33 @@ export default function ParticleBackground() {
       }
     }
     
+    // 創建獨立的線條
+    for (let i = 0; i < lineCount; i++) {
+      const x1 = Math.random() * canvas.width;
+      const y1 = Math.random() * canvas.height;
+      const angle = Math.random() * Math.PI * 2;
+      const length = Math.random() * 100 + 50;
+      const x2 = x1 + Math.cos(angle) * length;
+      const y2 = y1 + Math.sin(angle) * length;
+      
+      newLines.push({
+        x1, y1, x2, y2,
+        width: Math.random() * 1 + 0.5,
+        color: theme === 'dark' ? 'rgba(255, 255, 255, ' : 'rgba(0, 0, 0, ',
+        opacity: theme === 'dark' ? Math.random() * 0.2 + 0.05 : Math.random() * 0.15 + 0.03,
+        speed: (Math.random() * 0.3 + 0.1) * (Math.random() > 0.5 ? 1 : -1),
+        length,
+        angle
+      });
+    }
+    
     setParticles(newParticles);
+    setLines(newLines);
   }, [theme]);
 
   useEffect(() => {
     if (typeof window === 'undefined') return; // 確保只在客戶端執行
-    if (!canvasRef.current || particles.length === 0) return;
+    if (!canvasRef.current || (particles.length === 0 && lines.length === 0)) return;
 
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d');
@@ -116,6 +160,19 @@ export default function ParticleBackground() {
 
     // 監聽窗口大小變化
     window.addEventListener('resize', setCanvasDimensions);
+    
+    // 監聽滑鼠移動
+    const handleMouseMove = (e: MouseEvent) => {
+      setMousePosition({ x: e.clientX, y: e.clientY });
+    };
+    
+    // 監聽滑鼠離開
+    const handleMouseLeave = () => {
+      setMousePosition(null);
+    };
+    
+    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mouseleave', handleMouseLeave);
 
     // 動畫循環
     let animationFrameId = 0;
@@ -124,27 +181,59 @@ export default function ParticleBackground() {
       // 清空畫布
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      // 根據主題決定是否繪製連接線
-      if (theme === 'dark') {
-        // 繪製連接線 (僅深色主題)
-        ctx.strokeStyle = 'rgba(255, 255, 255, 0.05)';
-        ctx.lineWidth = 0.3;
-        for (let i = 0; i < particles.length; i++) {
-          for (let j = i + 1; j < particles.length; j++) {
-            const dx = particles[i].x - particles[j].x;
-            const dy = particles[i].y - particles[j].y;
-            const distance = Math.sqrt(dx * dx + dy * dy);
-
-            if (distance < 100) {
-              ctx.beginPath();
-              ctx.moveTo(particles[i].x, particles[i].y);
-              ctx.lineTo(particles[j].x, particles[j].y);
-              ctx.globalAlpha = 0.05 * (1 - distance / 100);
-              ctx.stroke();
-            }
+      // 繪製獨立的線條
+      lines.forEach((line, index) => {
+        ctx.beginPath();
+        ctx.strokeStyle = line.color + line.opacity + ')';
+        ctx.lineWidth = line.width;
+        ctx.globalAlpha = 1;
+        
+        // 繪製線條
+        ctx.moveTo(line.x1, line.y1);
+        ctx.lineTo(line.x2, line.y2);
+        ctx.stroke();
+        
+        // 更新線條位置，使其以勺速移動
+        // 保持原始速度，不受滑鼠影響
+        const originalSpeed = line.speed;
+        line.x1 += originalSpeed;
+        line.x2 += originalSpeed;
+        
+        // 線條移出畫布後重新定位
+        if ((line.speed > 0 && line.x1 > canvas.width + 100) || 
+            (line.speed < 0 && line.x2 < -100)) {
+          if (line.speed > 0) {
+            line.x1 = -100;
+            line.x2 = line.x1 + line.length * Math.cos(line.angle);
+          } else {
+            line.x2 = canvas.width + 100;
+            line.x1 = line.x2 - line.length * Math.cos(line.angle);
           }
         }
-      }
+        
+        // 滑鼠附近的線條會稍微彩色和增亮，但不改變速度
+        if (mousePosition) {
+          const midX = (line.x1 + line.x2) / 2;
+          const midY = (line.y1 + line.y2) / 2;
+          const dx = mousePosition.x - midX;
+          const dy = mousePosition.y - midY;
+          const distance = Math.sqrt(dx * dx + dy * dy);
+          const maxDistance = 200;
+          
+          if (distance < maxDistance) {
+            const factor = 1 - distance / maxDistance;
+            ctx.beginPath();
+            ctx.strokeStyle = theme === 'dark' ? 
+              `rgba(${255}, ${255}, ${255}, ${line.opacity * 2 * factor})` : 
+              `rgba(${0}, ${0}, ${0}, ${line.opacity * 2 * factor})`;
+            // 只改變透明度，不改變線寬，保持一致性
+            ctx.lineWidth = line.width;
+            ctx.moveTo(line.x1, line.y1);
+            ctx.lineTo(line.x2, line.y2);
+            ctx.stroke();
+          }
+        }
+      });
 
       // 更新和繪製每個粒子
       particles.forEach((particle, index) => {
@@ -152,8 +241,84 @@ export default function ParticleBackground() {
         ctx.globalAlpha = 1;
         
         // 更新位置
-        particle.x += particle.speedX;
-        particle.y += particle.speedY;
+        let targetX = particle.x + particle.speedX;
+        let targetY = particle.y + particle.speedY;
+        
+        // 粒子始終保持勺速漫游狀態
+        const time = Date.now() * 0.0005;
+        
+        // 保存原始速度
+        const originalSpeedX = particle.speedX;
+        const originalSpeedY = particle.speedY;
+        
+        // 基本漫游運動 - 使用正弦和餘弦函數增加一點變化，但不改變基本速度
+        const wanderX = Math.sin(time + index * 0.3) * 0.1;
+        const wanderY = Math.cos(time * 1.1 + index * 0.7) * 0.1;
+
+        targetX += originalSpeedX + wanderX;
+        targetY += originalSpeedY + wanderY;
+
+        if (mousePosition) {
+          const dx = mousePosition.x - particle.x;
+          const dy = mousePosition.y - particle.y;
+          const distance = Math.sqrt(dx * dx + dy * dy);
+          const maxDistance = 150;
+
+          if (distance < maxDistance) {
+            const force = (1 - distance / maxDistance) * 0.8;
+
+            const idealDistance = 30 + Math.random() * 30;
+
+            const directionX = dx / (distance || 1);
+            const directionY = dy / (distance || 1);
+
+            if (distance > idealDistance) {
+              targetX += directionX * force * 0.5;
+              targetY += directionY * force * 0.5;
+            } else {
+              targetX -= directionX * force * 0.2;
+              targetY -= directionY * force * 0.2;
+            }
+
+            const angle = Math.atan2(dy, dx) + (Date.now() * 0.001 + index * 0.2);
+            const orbitSpeed = 0.2 + Math.random() * 0.3;
+            targetX += Math.cos(angle) * orbitSpeed;
+            targetY += Math.sin(angle) * orbitSpeed;
+
+            particle.opacity = Math.min(1, particle.opacity * 1.05);
+          }
+        }
+
+        // 確保粒子速度始終保持一致
+        particle.speedX = originalSpeedX;
+        particle.speedY = originalSpeedY;
+        
+        // 限制粒子速度在合理範圍內
+        const maxSpeed = 0.3;
+        if (Math.abs(particle.speedX) > maxSpeed) {
+          particle.speedX = Math.sign(particle.speedX) * maxSpeed;
+        }
+        if (Math.abs(particle.speedY) > maxSpeed) {
+          particle.speedY = Math.sign(particle.speedY) * maxSpeed;
+        }
+        
+        // 溝通原點的引力，但不改變粒子的基本速度
+        if (particle.originX !== undefined && particle.originY !== undefined) {
+          const dx = particle.originX - particle.x;
+          const dy = particle.originY - particle.y;
+          
+          // 如果距離原點太遠，增加引力
+          const distanceFromOrigin = Math.sqrt(dx * dx + dy * dy);
+          if (distanceFromOrigin > 150) {
+            // 增加引力，但不改變基本速度
+            const pullFactor = 0.01;
+            targetX += dx * pullFactor;
+            targetY += dy * pullFactor;
+          }
+        }
+        
+        particle.x = targetX;
+        particle.y = targetY;
 
         // 邊界檢查
         if (particle.x < 0 || particle.x > canvas.width) {
@@ -250,16 +415,18 @@ export default function ParticleBackground() {
     // 清理函數
     return () => {
       window.removeEventListener('resize', setCanvasDimensions);
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mouseleave', handleMouseLeave);
       if (animationFrameId) {
         cancelAnimationFrame(animationFrameId);
       }
     };
-  }, [particles, theme]);
+  }, [particles, lines, theme, mousePosition]);
 
   return (
     <canvas
       ref={canvasRef}
-      className="fixed top-0 left-0 w-full h-full -z-10 pointer-events-none"
+      className="fixed top-0 left-0 w-full h-full -z-10"
       style={{ opacity: theme === 'dark' ? 0.7 : 0.4 }}
     />
   );

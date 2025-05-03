@@ -120,11 +120,152 @@ export const projectsData = [
   },
 ] as const;
 
-export const skillsData = {
-  前端: ["HTML", "CSS", "JavaScript", "SASS/SCSS" , "React"],
-  後端: ["Node.js", "Java", "Spring Boot"],
-  資料庫: ["MongoDB", "MySQL"],
-  伺服器:["NGINX","Apache"],
-  雲服務:["AWS","Google Cloud","Azure","Vercel"],
-  其他:["Git","Docker","Linux","Python","Cloudflare"],
+// 定義技能資料的類型
+export type Skill = {
+  name: string;
+  proficiency: number; // 1-5 表示熟練度
+  experience: string;
+  projects?: string[]; // 相關項目名稱
+};
+
+// 更新後的技能資料結構
+export const skillsData: Record<string, Skill[]> = {
+  前端: [
+    { 
+      name: "HTML", 
+      proficiency: 5, 
+      experience: "三年以上經驗，熟悉語意化標籤和最佳實踐",
+      projects: ["個人網站", "設計師網站"]
+    },
+    { 
+      name: "CSS", 
+      proficiency: 5, 
+      experience: "三年以上經驗，熟悉 Flexbox、Grid 和響應式設計",
+      projects: ["個人網站", "設計師網站"]
+    },
+    { 
+      name: "JavaScript", 
+      proficiency: 4, 
+      experience: "兩年以上經驗，熟悉 ES6+ 特性和非同步程式設計",
+      projects: ["設計師網站", "MongoDB搜尋器"]
+    },
+    { 
+      name: "SASS/SCSS", 
+      proficiency: 4, 
+      experience: "一年以上經驗，用於大型專案的樣式管理",
+      projects: ["設計師網站"]
+    },
+    { 
+      name: "React", 
+      proficiency: 4, 
+      experience: "兩年經驗，熟悉 Hooks、Context API 和狀態管理",
+      projects: ["個人網站", "設計師網站"]
+    }
+  ],
+  後端: [
+    { 
+      name: "Node.js", 
+      proficiency: 3, 
+      experience: "一年經驗，用於建立 API 和伺服器端應用",
+      projects: ["MongoDB搜尋器"]
+    },
+    { 
+      name: "Java", 
+      proficiency: 4, 
+      experience: "兩年經驗，熟悉 Java 核心和多執行緒程式設計",
+      projects: ["MongoDB搜尋器", "Line Bot", "Sping boot後端"]
+    },
+    { 
+      name: "Spring Boot", 
+      proficiency: 4, 
+      experience: "一年半經驗，用於建立 RESTful API 和微服務",
+      projects: ["MongoDB搜尋器", "Line Bot", "Sping boot後端"]
+    }
+  ],
+  資料庫: [
+    { 
+      name: "MongoDB", 
+      proficiency: 4, 
+      experience: "兩年經驗，熟悉文件設計、索引和聚合管道",
+      projects: ["Excel-MongoDB導入", "MongoDB搜尋器", "Sping boot後端"]
+    },
+    { 
+      name: "MySQL", 
+      proficiency: 3, 
+      experience: "一年半經驗，熟悉關聯式資料庫設計和優化",
+      projects: ["MongoDB搜尋器"]
+    }
+  ],
+  伺服器: [
+    { 
+      name: "NGINX", 
+      proficiency: 4, 
+      experience: "兩年經驗，用於反向代理、負載平衡和 SSL 配置",
+      projects: ["MongoDB搜尋器", "Sping boot後端"]
+    },
+    { 
+      name: "Apache", 
+      proficiency: 3, 
+      experience: "一年經驗，用於基本的 Web 伺服器配置",
+      projects: []
+    }
+  ],
+  雲服務: [
+    { 
+      name: "AWS", 
+      proficiency: 3, 
+      experience: "一年經驗，使用 EC2、S3 和 RDS 服務",
+      projects: []
+    },
+    { 
+      name: "Google Cloud", 
+      proficiency: 4, 
+      experience: "兩年經驗，熟悉 GCE、GKE 和 Cloud Storage",
+      projects: ["Excel-MongoDB導入", "MongoDB搜尋器"]
+    },
+    { 
+      name: "Azure", 
+      proficiency: 2, 
+      experience: "基本了解，有使用 Azure App Service 的經驗",
+      projects: []
+    },
+    { 
+      name: "Vercel", 
+      proficiency: 4, 
+      experience: "一年經驗，用於部署前端應用和 Next.js 專案",
+      projects: ["個人網站"]
+    }
+  ],
+  其他: [
+    { 
+      name: "Git", 
+      proficiency: 4, 
+      experience: "三年經驗，熟悉分支管理、合併和解決衝突",
+      projects: ["所有專案"]
+    },
+    { 
+      name: "Docker", 
+      proficiency: 4, 
+      experience: "兩年經驗，用於容器化應用和開發環境",
+      projects: ["Excel-MongoDB導入", "MongoDB搜尋器", "Sping boot後端"]
+    },
+    { 
+      name: "Linux", 
+      proficiency: 4, 
+      experience: "三年經驗，熟悉 Shell 腳本和系統管理",
+      projects: ["Excel-MongoDB導入", "MongoDB搜尋器"]
+    },
+    { 
+      name: "Python", 
+      proficiency: 3, 
+      experience: "兩年經驗，用於自動化腳本和資料處理",
+      projects: ["Excel-MongoDB導入"]
+    },
+    { 
+      name: "Cloudflare", 
+      proficiency: 4, 
+      experience: "兩年經驗，用於 CDN、DNS 管理和 DDoS 防護",
+      projects: ["MongoDB搜尋器", "Sping boot後端"]
+    }
+  ],
 } as const;
