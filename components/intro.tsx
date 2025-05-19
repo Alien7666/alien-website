@@ -70,8 +70,8 @@ export default function Intro() {
           你好👋
           {/* &nbsp; */}
           我是<span className="font-bold"></span>
-          一個有兩年獨立開發經驗的
-          <span className="font-bold">全端的開發人員 </span>
+          有兩年開發經驗的
+          <span className="font-bold">全端開發 </span>
           {/* ，喜歡 */}
           {/* <span className="">開發網站和應用程式</span> */}
           主要寫{"  "}

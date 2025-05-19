@@ -97,7 +97,7 @@ export default function Skills() {
       className="mb-28 max-w-[53rem] scroll-mt-28 text-center sm:mb-40"
     >
       <SectionHeading>我會的技能</SectionHeading>
-      <p className="text-gray-700 dark:text-white/80 mb-8">懸停在技能上可查看詳細資訊和相關專案經驗</p>
+      {/* <p className="text-gray-700 dark:text-white/80 mb-8">懸停在技能上可查看詳細資訊和相關專案經驗</p> */}
       
       {Object.entries(skillsData).map(([category, skills]) => (
         <div key={category} className="mb-10">
