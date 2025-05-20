@@ -1,20 +1,36 @@
+# 改用 Cloudflare Pages 配置
 name = "site-azndev-com"
-main = ".next/standalone/server.js"
-compatibility_date = "2023-12-01"
 
+# 建置設定
 [build]
 command = "npm install && npm run build"
-cwd = "."
+publish = ".next"
 
+# 環境變數
+[build.environment]
+NODE_VERSION = "18"
+
+# 建置輸出設定
+[build.processing]
+  skip_processing = false
+[build.processing.css]
+  bundle = true
+  minify = true
+[build.processing.js]
+  bundle = true
+  minify = true
+[build.processing.html]
+  pretty_urls = true
+[build.processing.images]
+  compress = true
+
+# 路由設定
+[[routes]]
+  pattern = "/*"
+  script = "\(.next/server/pages/.*\)"
+  dest = "/.next/server/pages/$1"
+
+# 部署設定
 [site]
-bucket = ".next/static"
+  production_branch = "main"
 
-[env.production]
-workers_dev = true
-routes = [
-  { pattern = "*site.azndev.com/*", zone_name = "azndev.com" }
-]
-
-# 如果依然有依賴問題，可以嘗試使用以下設定
-# [build]
-# command = "npm install --legacy-peer-deps && npm run build"
