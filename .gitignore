@@ -34,8 +34,5 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# readme.md
-readme.md
-
 #sendemail.ts
 sendEmail.ts
