@@ -1,4 +1,4 @@
-# 改用 Cloudflare Pages 配置
+# Cloudflare Pages 基本配置
 name = "site-azndev-com"
 
 # 建置設定
@@ -6,31 +6,6 @@ name = "site-azndev-com"
 command = "npm install && npm run build"
 publish = ".next"
 
-# 環境變數 
+# 指定 Node.js 版本
 [build.environment]
 NODE_VERSION = "18"
-
-# 建置輸出設定
-[build.processing]
-  skip_processing = false
-[build.processing.css]
-  bundle = true
-  minify = true
-[build.processing.js]
-  bundle = true
-  minify = true
-[build.processing.html]
-  pretty_urls = true
-[build.processing.images]
-  compress = true
-
-# 路由設定
-[[routes]]
-  pattern = "/*"
-  script = "(.next/server/pages/.*)"  
-  dest = "/.next/server/pages/$1"
-
-# 部署設定
-[site]
-  production_branch = "main"
-
