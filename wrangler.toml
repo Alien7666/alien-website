@@ -6,7 +6,7 @@ name = "site-azndev-com"
 command = "npm install && npm run build"
 publish = ".next"
 
-# 環境變數
+# 環境變數 
 [build.environment]
 NODE_VERSION = "18"
 
@@ -27,7 +27,7 @@ NODE_VERSION = "18"
 # 路由設定
 [[routes]]
   pattern = "/*"
-  script = "\(.next/server/pages/.*\)"
+  script = "(.next/server/pages/.*)"  
   dest = "/.next/server/pages/$1"
 
 # 部署設定
