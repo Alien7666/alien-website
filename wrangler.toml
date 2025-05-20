@@ -1,0 +1,20 @@
+name = "site-azndev-com"
+main = ".next/standalone/server.js"
+compatibility_date = "2023-12-01"
+
+[build]
+command = "npm install && npm run build"
+cwd = "."
+
+[site]
+bucket = ".next/static"
+
+[env.production]
+workers_dev = true
+routes = [
+  { pattern = "*site.azndev.com/*", zone_name = "azndev.com" }
+]
+
+# 如果依然有依賴問題，可以嘗試使用以下設定
+# [build]
+# command = "npm install --legacy-peer-deps && npm run build"
