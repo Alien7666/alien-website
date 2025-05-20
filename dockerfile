@@ -8,7 +8,7 @@ WORKDIR /app
 COPY package*.json ./
 
 # 安裝依賴
-RUN npm install
+RUN npm install --legacy-peer-deps
 
 # 複製其他源文件
 COPY . .
@@ -17,7 +17,7 @@ COPY . .
 ENV RESEND_API_KEY=re_9hkKYhEG_FirrkvMqPhsSqVcCg9xqrHqy
 
 # 構建應用程序
-RUN npm run build || (cat /root/.npm/_logs/*-debug.log && exit 1)
+RUN npm run build --force || (cat /root/.npm/_logs/*-debug.log && exit 1)
 
 # 啟動應用程序
 CMD ["npm", "start"]

@@ -142,11 +142,18 @@ export type Skill = {
   name: string;
   proficiency: number; // 1-5 表示熟練度
   experience: string;
-  projects?: string[]; // 相關項目名稱
+  projects?: readonly string[] | string[]; // 相關項目名稱
 };
 
+type SkillData = Record<string, readonly Skill[]>;
+
+// 將 as const 轉換為普通陣列的輔助函數
+function convertToMutableArray<T>(arr: readonly T[]): T[] {
+  return [...arr];
+}
+
 // 更新後的技能資料結構
-export const skillsData: Record<string, Skill[]> = {
+const rawSkillsData = {
   前端: [
     { 
       name: "HTML", 
@@ -286,3 +293,27 @@ export const skillsData: Record<string, Skill[]> = {
     }
   ],
 } as const;
+
+// 將 readonly 陣列轉換為可變陣列
+export const skillsData: Record<string, Skill[]> = Object.fromEntries(
+  Object.entries(rawSkillsData).map(([category, skills]) => [
+    category,
+    skills.map(skill => {
+      // 使用類型斷言來確保 TypeScript 知道我們正在處理的屬性
+      const result: Skill = {
+        name: skill.name,
+        proficiency: skill.proficiency,
+        experience: skill.experience
+      };
+      
+      // 如果有 projects 屬性，則轉換為可變陣列
+      if ('projects' in skill && skill.projects) {
+        result.projects = [...skill.projects];
+      } else {
+        result.projects = [];
+      }
+      
+      return result;
+    })
+  ])
+);
